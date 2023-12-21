@@ -15,8 +15,7 @@ export default function Links() {
               Nicolas Alan
             </h1>
             <p className="max-w-sm text-secondary mx-auto text-center">            
-            Software engineer who loves building cool
-            things with code. In addition to coding, I also make YouTube videos. Find me elsewhere @nicolasalan
+            Software engineer who loves creating smart things.
             </p>
           </div>
         </div>

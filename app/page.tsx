@@ -11,7 +11,6 @@ export default async function Home() {
       (a, b) =>
         new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime(),
     )
-    // 3 most recent
     .filter((_, i) => i < 3);
 
   return (
@@ -25,7 +24,7 @@ export default async function Home() {
             className="animate-in text-secondary"
             style={{ "--index": 1 } as React.CSSProperties}
           >
-            I write code and make videos.
+            I write code and study.
           </p>
         </div>
         <div
@@ -37,23 +36,14 @@ export default async function Home() {
           className="max-w-lg animate-in text-primary"
           style={{ "--index": 2 } as React.CSSProperties}
         >
-          Hi, I&apos;m Nicolas Alan, a software engineer who loves building cool
-          things with code. In addition to coding, I also make YouTube videos,
-          where I focus on tech, creative vlogs, and personal development.
+          Hi, I&apos;m Nicolas Alan, a software engineer working on sociable robots. 
+          I like creating agents who can learn and discover how the world works 
+          on their own, to help more people. I'm from Brazil and I live in São Paulo.
         </p>
         <ul
           className="animated-list flex animate-in flex-col gap-2 text-secondary md:flex-row md:gap-6"
           style={{ "--index": 2 } as React.CSSProperties}
         >
-          <li className="transition-opacity">
-            <Link
-              href="mailto:contact@b-r.io"
-              className="flex items-center gap-2 no-underline"
-            >
-              <ArrowUpRightIcon className="h-5 w-5" />
-              <span>Email me</span>
-            </Link>
-          </li>
           <li className="transition-opacity">
             <Link
               href="/links"

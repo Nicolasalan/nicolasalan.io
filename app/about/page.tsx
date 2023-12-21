@@ -6,8 +6,8 @@ import Section from "@/components/Section";
 import ConnectLinks from "../../components/ConnectLinks";
 import Workplaces from "./components/Workplaces";
 
-import hinesLogo from "public/work/hines-logo.jpeg";
-import perishipLogo from "public/work/periship-logo.jpeg";
+import roboteclogo from "public/work/robotec-logo.png";
+import robofeilogo from "public/work/robofei-logo.png";
 
 export const metadata: Metadata = {
   title: "About | Nicolas Alan",
@@ -35,20 +35,18 @@ export default function About() {
       >
         <Section heading="About" headingAlignment="left">
           <div className="flex flex-col gap-6">
-            <p>Hello world, I&apos;m Nicolas Alan!</p>
+            <p>Hello, I&apos;m Nicolas Alan!</p>
 
             <p>
-              I have a passion for design and am always looking for ways to
-              incorporate it into my engineering work.
+              I&apos;m a robot engineer, I work specifically with sociable 
+              robots that are helping people on a daily basis
             </p>
             <p>
-              In addition to coding, I also make
-              videos, where I focus, creative vlogs, and a bit of
-              personal development.
+              I really like programming, mainly in Python, but recently I'm learning Javascript
             </p>
             <p>
-              When I&apos;m not at my desk I am probably lifting weights,
-              playing soccer, or at a coffee shop :)
+              Programming and learning how to do something is something 
+              that inspires me the most to do my best.
             </p>
           </div>
         </Section>
@@ -56,11 +54,7 @@ export default function About() {
         <Section heading="Connect" headingAlignment="left">
           <div className="flex flex-col w-full gap-8">
             <p>
-              Have a question or just want to chat? Feel free to{" "}
-              <Link href="mailto:contact@b-r.io" >
-                email me
-              </Link>
-              . Try finding me anywhere else at @nicolasalan
+            Here are my networks that I use for work :)
             </p>
             <ul className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-2 animated-list">
               {ConnectLinks.map((link) => (
@@ -95,21 +89,12 @@ export default function About() {
         <Section heading="Work" headingAlignment="left">
           <div className="flex flex-col w-full gap-8">
             <p>
-              {new Date().getFullYear() - 2019}+ years of professional
-              development experience.
+              {new Date().getFullYear() - 2021}+ years of professional
+              robot development experience.
             </p>
             <p>
-              I started my career teaching others how to code, which I will
-              always be appreciative of. Then I worked at a few small local
-              companies. Now I&apos;m a full stack engineer currently working at{" "}
-              <Link
-                className="underline"
-                href="https://hines.com"
-
-              >
-                Hines
-              </Link>
-              , one of the largest private real estate investors in the world.
+              I started working on a domestic robot competition team RoboCup, where I was captain before leaving. 
+              Then I started working at a Robotec startup for service robots. 
             </p>
             <Workplaces items={workplaces} />
           </div>
@@ -121,17 +106,17 @@ export default function About() {
 
 const workplaces = [
   {
-    title: "nome",
-    company: "Empresa",
-    time: "2022 -",
-    imageSrc: hinesLogo,
-    link: "https://hines.com",
+    title: "Software Engineer",
+    company: "Robotec",
+    time: "2023 -",
+    imageSrc: roboteclogo,
+    link: "https://robotecsolutions.com/",
   },
   {
     title: "Software Engineer",
-    company: "PeriShip",
-    time: "2021 - 2022",
-    imageSrc: perishipLogo,
+    company: "RoboFEI",
+    time: "2021 - 2023",
+    imageSrc: robofeilogo,
     link: "https://peripharma.com/",
   },
 ];
