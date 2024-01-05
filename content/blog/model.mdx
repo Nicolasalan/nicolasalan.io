@@ -99,7 +99,6 @@ Estimativa de retorno Monte Carlo:
 
 `(G) = R₁ + γ * R₂ + γ² * R₃ + … + γ^(n-1) * Rₙ​`
 
-
 Onde:
 
 * G é o retorno total com desconto, ou seja, a soma das recompensas (R) ponderadas pelos fatores 
@@ -144,7 +143,6 @@ A estrutra do modelo é a seguinte:
 * Retorna o conjunto **(s, a, r, s’) -> (estado, ação, recompensa, proximo estado)**
 * Utilizando a estimativa TD que é **r + γ * V(s') - V(s)** para treinar o critico.
 * Em seguida, calcula a função de vantagem **A(s, a) = r + γ * V(s') - V(s)** e utiliza para treinar o ator.
-
 
 ## DDPG (Deep Deterministic Policy Gradient) Paper​
 O DDPG (*Deep Deterministic Policy Gradient*) é uma extensão do DQN que permite lidar com tarefas contínuas, 

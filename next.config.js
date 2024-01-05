@@ -9,7 +9,8 @@ const nextConfig = {
     domains: [
       "tailwindui.com",
       'www.imgeorgiev.com',
-      'avatars.githubusercontent.com'
+      'avatars.githubusercontent.com',
+      `yt3.googleusercontent.com`,
     ],
   },
 };

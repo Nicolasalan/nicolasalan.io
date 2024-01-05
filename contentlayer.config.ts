@@ -15,11 +15,11 @@ const postComputedFields: ComputedFields = {
   },
   image: {
     type: "string",
-    resolve: (doc) => `/blog/${getSlug(doc)}/model.jpeg`,
+    resolve: (doc) => `/blog/${getSlug(doc)}/image.jpeg`,
   },
   og: {
     type: "string",
-    resolve: (doc) => `/blog/${getSlug(doc)}/model.jpeg`,
+    resolve: (doc) => `/blog/${getSlug(doc)}/image.jpeg`,
   },
 };
 
