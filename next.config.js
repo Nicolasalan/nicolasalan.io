@@ -8,12 +8,8 @@ const nextConfig = {
   images: {
     domains: [
       "tailwindui.com",
-      "images.unsplash.com",
-      "cdn.dribbble.com",
-      "m.media-amazon.com",
-      "ik.imagekit.io",
-      "miro.medium.com",
-      "i.ytimg.com",
+      'www.imgeorgiev.com',
+      'avatars.githubusercontent.com'
     ],
   },
 };
