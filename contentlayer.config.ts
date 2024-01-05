@@ -2,7 +2,7 @@ import {
   defineDocumentType,
   makeSource,
   ComputedFields,
-} from "contentlayer/source-files"; // eslint-disable-line
+} from "contentlayer/source-files"; 
 import rehypePrism from "rehype-prism-plus";
 import rehypeSlug from "rehype-slug";
 
@@ -15,11 +15,11 @@ const postComputedFields: ComputedFields = {
   },
   image: {
     type: "string",
-    resolve: (doc) => `/blog/${getSlug(doc)}/image.png`,
+    resolve: (doc) => `/blog/${getSlug(doc)}/model.jpeg`,
   },
   og: {
     type: "string",
-    resolve: (doc) => `/blog/${getSlug(doc)}/image.png`,
+    resolve: (doc) => `/blog/${getSlug(doc)}/model.jpeg`,
   },
 };
 
@@ -46,7 +46,7 @@ const projectComputedFields: ComputedFields = {
   },
   image: {
     type: "string",
-    resolve: (doc) => `/projects/${getSlug(doc)}/image.png`,
+    resolve: (doc) => `/projects/${getSlug(doc)}/model.png`,
   },
 };
 
