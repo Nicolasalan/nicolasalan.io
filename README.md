@@ -18,16 +18,6 @@ frontend:
 
 Make sure you have Node.js v18.17.0+ installed on your machine.
 
-1. **Install Dependencies**: `npm install`
-2. **Environment variables**: Copy `.env.example` to a new `.env.local`
-5. **Start Developing**: `npm run dev`, this will automatically create the .contentlayer files and start the Next.js development server.
-
-## Database Setup
-
-- Sign up for a PlanetScale account
-- Create a new database in PlanetScale
-- Update the DATABASE_URL environment variable in your project's `.env.local` file with the connection string provided by PlanetScale
-
 ## Deployment
 
 This project can be easily deployed to [Vercel](https://vercel.com/new/clone). Simply connect your Vercel account to your GitHub repository, and Vercel will automatically build and deploy your application with each new push to the main branch.
