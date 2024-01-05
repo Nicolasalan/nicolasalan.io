@@ -44,7 +44,7 @@ Geralmente, quando um agente aprende uma função de valor, ele pode prosseguir 
 conhecimento prévio. Nesse ponto, o agente aprende a parametrizar a política e a otimizá-la diretamente. A política é 
 geralmente estocástica, denotada como `π(s|a)`, o que significa que ela introduz aleatoriedade na escolha das ações com base em probabilidades. Isso permite ao agente explorar diferentes ações e evitar ficar preso em um único comportamento. Por outro lado, uma política determinística, denotada como π(s), sempre escolhe a mesma ação para cada estado específico, sem envolver aleatoriedade na tomada de decisões.
 
-<Image rounded width={600} height={400} caption="Visualizations Diagram" src="/blog/actor/diagram.jpeg" />
+<Image rounded width={600} height={400} caption="Visualizations Diagram" src="/blog/model/diagram.jpeg" />
 
 ### Viés e Variação
 
@@ -132,7 +132,7 @@ mais estável do que os métodos baseados em valor e requer menos dados do que o
 
 ## Modelo Actor-Critic​
 
-<Image rounded width={600} height={400} caption="Visualizations model Actor Critic" src="/blog/actor/model.jpeg" />
+<Image rounded width={600} height={400} caption="Visualizations model Actor Critic" src="/blog/model/model.jpeg" />
 
 No método Actor-Critic, são utilizadas duas redes neurais, uma para o crítico e outra para o ator. O crítico aprende a avaliar a função de valor do estado Vπ(S) utilizando o método TD (Diferença Temporal) como estimativa. Com base nas estimativas do crítico, a função de vantagem é calculada e usada para treinar o ator.
 
