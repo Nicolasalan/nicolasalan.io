@@ -117,6 +117,6 @@ const workplaces = [
     company: "RoboFEI",
     time: "2021 - 2023",
     imageSrc: robofeilogo,
-    link: "https://peripharma.com/",
+    link: "https://www.linkedin.com/company/robofei/",
   },
 ];
