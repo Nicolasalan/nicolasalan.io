@@ -1,7 +1,6 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 
-import map from "public/map.png";
 import { FaYoutube } from "react-icons/fa";
 
 import Link from "@/components/ui/Link";
@@ -80,7 +79,6 @@ export default function Mediakit() {
               <p className="font-bold text-primary">Top Geographies</p>
               <p className="text-secondary">Views contribution</p>
               <div className="relative mt-6 flex-grow">
-                <Image src={map} alt="map" className="opacity-75 saturate-0" />
                 <Chip label="🇺🇸 31%" position={[35, 10]} />
                 <Chip label="🇬🇧 9%" position={[16, 40]} />
                 <Chip label="🇩🇪 7.5%" position={[27, 47]} />
