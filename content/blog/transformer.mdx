@@ -1,0 +1,41 @@
+---
+title: 'Vision Transformer (ViT)'
+publishedAt: '2024-01-02'
+summary: 'Reconhecimento de imagem com o Vision Transformer (ViT)'
+tags: ["Pytorch", "ViT", "Transformer", "Vision"]
+shortTitle: 'ViT'
+---
+
+Basicamente toda a arquitetura de modelos de *deep learning* é construído por camadas,
+cada camada executa uma função, um conjunto de camadas é um bloco e um conjunto
+de blocos forma um modelo.
+
+O modelo **`Vit Tranformer`** é dividido nas seguintes partes:
+
+#### 1. **Incorporação de patch + posição (entradas):**
+
+    Nessa parte ele divide as entradas no caso imagens em patch, além disso incorpora uma posição em cada patch para saber como a ordem.
+
+#### 2. ***Embedded Patches*:**
+
+    Nessa parte ele faz uma incorporação, assim que chamam onde seria transformar em um material que seria mais fácil de aprender para um IA, basicamente seria uma vetorização.
+
+#### 3. **Normalização:**
+
+    Normalizar a camada para evitar o *overfitting*.
+
+#### 4. **Atenção multicabeças:**
+
+    É aqui que a atenção é incorporada, também chamada de MSA, o pytorch já tem uma função para isso `[torch.nn.MultiheadAttention()`.
+
+#### 5. **MLP:**
+
+    *Perception* multi camada ou qualquer outra camada totalmente conectar como o linear que passa pelo *forward*. No próprio artigo possui uma camada linear, uma ativação não linear GELU e um *Dropout*.
+
+#### 6. ***Transformer Encoder*:**
+
+    Nessa parte é o decodificador onde na arquitetura *transformers* possui vários.
+
+#### 7. **MLP Head:**
+
+    Aqui somente produz a saída desejada.

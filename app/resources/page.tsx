@@ -2,9 +2,9 @@ import Image, { StaticImageData } from "next/image";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Resources | Nicolas Alan",
+  title: "Recursos | Nicolas Alan",
   description:
-    "Contents and resources that I use to study and for my work :)",
+    "Conteúdos e recursos que utilizo para estudar e para meu trabalho :)",
 };
 
 interface ItemProps {
@@ -44,7 +44,7 @@ const Item = ({ title, description, image, link, sponsored }: ItemProps) => (
           href={link}
           target="_blank"
         >
-          Access
+          Ver
         </a>
         {sponsored && (
           <p className="mt-1 text-center text-xs text-tertiary">Sponsored</p>
@@ -70,21 +70,21 @@ export default function Gear() {
         <div className="flex flex-col gap-8 animate-in">
           <div>
             <h1 className="animate-in text-3xl font-bold tracking-tight">
-              Resources
+            Recursos
             </h1>
             <p
               className="animate-in text-secondary"
               style={{ "--index": 1 } as React.CSSProperties}
             >
-              My library.
+             Minha biblioteca.
             </p>
           </div>
           <p
             className="max-w-lg animate-in"
             style={{ "--index": 2 } as React.CSSProperties}
           >
-            Content that I consume and helps me understand 
-            certain content in addition to being very well produced.
+            Conteúdo que consumo e me ajuda a entender
+            determinado conteúdo além de ser muito bem produzido.
           </p>
         </div>
 

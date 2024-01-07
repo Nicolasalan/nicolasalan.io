@@ -6,9 +6,9 @@ import { allProjects, Project } from ".contentlayer/generated";
 import Halo from "@/components/ui/Halo";
 
 export const metadata: Metadata = {
-  title: "Projects | Nicolas Alan",
+  title: "Projetos | Nicolas Alan",
   description:
-    "Here are some of the projects I've worked on.",
+    "Aqui estão alguns dos projetos em que trabalhei.",
 };
 
 
@@ -21,13 +21,13 @@ export default function Blog() {
       <div className="flex flex-col gap-8">
         <div>
           <h1 className="animate-in text-3xl font-bold tracking-tight">
-            Projects
+          Projetos
           </h1>
           <p
             className="text-secondary animate-in"
             style={{ "--index": 1 } as React.CSSProperties}
           >
-            Here are some of the projects I&apos;ve worked on.
+            Aqui estão alguns dos projetos em que trabalhei ou que estou trabalhando.
           </p>
         </div>
       </div>

@@ -5,7 +5,7 @@ import PostList from "./components/ui/PostList";
 export const metadata: Metadata = {
   title: "Blog | Nicolas Alan",
   description:
-    "I write about programming, design, and occasionally life updates!",
+    "Escrevo sobre programação, design e, ocasionalmente, atualizações de vida!",
 };
 
 export default function Blog() {
@@ -23,7 +23,7 @@ export default function Blog() {
             className="animate-in text-secondary"
             style={{ "--index": 1 } as React.CSSProperties}
           >
-            {posts.length} posts about code, design, more ...
+            {posts.length} postagens sobre código, IA, mais ...
           </p>
         </div>
       </div>

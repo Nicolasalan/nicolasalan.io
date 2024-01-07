@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Metadata } from "next";
 
 import Link from "@/components/ui/Link";
@@ -10,9 +9,9 @@ import roboteclogo from "public/work/robotec-logo.png";
 import robofeilogo from "public/work/robofei-logo.png";
 
 export const metadata: Metadata = {
-  title: "About | Nicolas Alan",
+  title: "Sobre | Nicolas Alan",
   description:
-    "I am a full-stack software engineer who basically just enjoys creating things.",
+    "Sou um engenheiro de software no setor de robótica, focado em desenvolver robôs que ajudam as pessoas diariamente.",
 };
 
 export default function About() {
@@ -20,13 +19,13 @@ export default function About() {
     <div className="flex flex-col gap-16 md:gap-24">
       <div>
         <h1 className="animate-in text-3xl font-bold tracking-tight">
-          About Me
+        Sobre mim
         </h1>
         <p
           className="text-secondary animate-in"
           style={{ "--index": 1 } as React.CSSProperties}
         >
-          Just a quick glimpse.
+          Apenas uma rápida olhada.
         </p>
       </div>
       <div
@@ -35,18 +34,17 @@ export default function About() {
       >
         <Section heading="About" headingAlignment="left">
           <div className="flex flex-col gap-6">
-            <p>Hello, I&apos;m Nicolas Alan!</p>
+            <p>Olá, eu sou Nicolas Alan!</p>
 
             <p>
-              I&apos;m a robot engineer, I work specifically with sociable 
-              robots that are helping people on a daily basis
+              Sou engenheiro de robôs, trabalho especificamente com pessoas sociáveis
+              robôs que ajudam as pessoas diariamente
             </p>
             <p>
-              I really like programming, mainly in Python, but recently I'm learning Javascript
+            Gosto muito de programar, principalmente em Python, recentemente estou aprendendo aprendizado por reforço
             </p>
             <p>
-              Programming and learning how to do something is something 
-              that inspires me the most to do my best.
+              Programar e aprender a fazer algo é o que mais me inspira a dar o meu melhor.
             </p>
           </div>
         </Section>
@@ -54,7 +52,7 @@ export default function About() {
         <Section heading="Connect" headingAlignment="left">
           <div className="flex flex-col w-full gap-8">
             <p>
-            Here are my networks that I use for work :)
+            Aqui estão minhas redes que uso para trabalhar :)
             </p>
             <ul className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-2 animated-list">
               {ConnectLinks.map((link) => (
@@ -89,12 +87,12 @@ export default function About() {
         <Section heading="Work" headingAlignment="left">
           <div className="flex flex-col w-full gap-8">
             <p>
-              {new Date().getFullYear() - 2021}+ years of professional
-              robot development experience.
+              {new Date().getFullYear() - 2021}+ anos de profissional
+              experiência em desenvolvimento de robôs.
             </p>
             <p>
-              I started working on a domestic robot competition team RoboCup, where I was captain before leaving. 
-              Then I started working at a Robotec startup for service robots. 
+              Comecei a trabalhar na RoboCup, uma equipe de competição de robôs domésticos, da qual fui capitão antes de sair.
+              Depois comecei a trabalhar em uma startup da Robotec para robôs de serviço.
             </p>
             <Workplaces items={workplaces} />
           </div>

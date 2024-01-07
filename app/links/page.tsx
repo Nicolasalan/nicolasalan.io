@@ -15,7 +15,7 @@ export default function Links() {
               Nicolas Alan
             </h1>
             <p className="max-w-sm text-secondary mx-auto text-center">            
-            Software engineer who loves creating smart things.
+            Engenheiro de software que adora criar coisas inteligentes.
             </p>
           </div>
         </div>

@@ -2,5 +2,6 @@
 
 import blog__modelMdx from './blog__model.mdx.json' assert { type: 'json' }
 import blog__priceMdx from './blog__price.mdx.json' assert { type: 'json' }
+import blog__transformerMdx from './blog__transformer.mdx.json' assert { type: 'json' }
 
-export const allPosts = [blog__modelMdx, blog__priceMdx]
+export const allPosts = [blog__modelMdx, blog__priceMdx, blog__transformerMdx]

@@ -3,8 +3,9 @@ import {
   makeSource,
   ComputedFields,
 } from "contentlayer/source-files"; 
-import rehypePrism from "rehype-prism-plus";
 import rehypeSlug from "rehype-slug";
+import rehypePrism from "rehype-prism-plus";
+
 
 const getSlug = (doc: any) => doc._raw.sourceFileName.replace(/\.mdx$/, "");
 
@@ -25,7 +26,7 @@ const postComputedFields: ComputedFields = {
 
 export const Post = defineDocumentType(() => ({
   name: "Post",
-  filePathPattern: `blog/**/*.mdx`,
+  filePathPattern: `blog/**/*.mdx`, // onde fica o arquivo
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
@@ -46,13 +47,14 @@ const projectComputedFields: ComputedFields = {
   },
   image: {
     type: "string",
-    resolve: (doc) => `/projects/${getSlug(doc)}/model.png`,
+    resolve: (doc) => `/projects/${getSlug(doc)}/image.png`,
   },
 };
 
 export const Project = defineDocumentType(() => ({
   name: "Project",
   filePathPattern: `project/**/*.mdx`,
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
@@ -69,5 +71,5 @@ export default makeSource({
   documentTypes: [Post, Project],
   mdx: {
     rehypePlugins: [rehypePrism, rehypeSlug],
-  },
+    },
 });

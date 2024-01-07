@@ -24,7 +24,7 @@ export default async function Home() {
             className="animate-in text-secondary"
             style={{ "--index": 1 } as React.CSSProperties}
           >
-            I write code and study.
+           Eu escrevo código e estudo.
           </p>
         </div>
         <div
@@ -36,9 +36,9 @@ export default async function Home() {
           className="max-w-lg animate-in text-primary"
           style={{ "--index": 2 } as React.CSSProperties}
         >
-          Hi, I&apos;m Nicolas Alan, a software engineer working on sociable robots. 
-          I like creating agents who can learn and discover how the world works 
-          on their own, to help more people. I'm from Brazil and I live in São Paulo.
+          Olá, sou Nicolas Alan, engenheiro de software que trabalha com robôs sociáveis.
+          Gosto de criar agentes que possam aprender e descobrir como o mundo funciona
+          por conta própria, para ajudar mais pessoas. Sou do Brasil e moro em São Paulo.
         </p>
         <ul
           className="animated-list flex animate-in flex-col gap-2 text-secondary md:flex-row md:gap-6"
@@ -50,7 +50,7 @@ export default async function Home() {
               className="flex items-center gap-2 no-underline"
             >
               <ArrowUpRightIcon className="h-5 w-5" />
-              <span>More ways to connect</span>
+              <span>Mais maneiras de se conectar</span>
             </Link>
           </li>
         </ul>
@@ -59,13 +59,13 @@ export default async function Home() {
         className="flex animate-in flex-col gap-8"
         style={{ "--index": 3 } as React.CSSProperties}
       >
-        <h2 className="text-secondary">Latest Posts</h2>
+        <h2 className="text-secondary">Últimas postagens</h2>
         <PostList posts={posts} />
         <Link
           href="/blog"
           className="text-secondary underline underline-offset-4 hover:text-primary"
         >
-          See All
+          Ver tudo
         </Link>
       </div>
     </div>

@@ -40,7 +40,7 @@ export async function generateMetadata(
     slug,
   } = post;
 
-  const ogImage = `https://b-r.io/${image}`;
+  const ogImage = `https://nicolasalan.io/${image}`;
 
   const metadata: Metadata = {
     title: `${title} | Nicolas Alan`,
@@ -50,10 +50,10 @@ export async function generateMetadata(
       description,
       type: "article",
       publishedTime,
-      url: `https://b-r.io/blog/${title}`,
+      url: `https://nicolasalan.io/blog/${title}`,
       images: [
         {
-          url: `https://b-r.io/api/og?title=${title}`,
+          url: `https://nicolasalan.io/api/og?title=${title}`,
           alt: title,
         },
       ],
@@ -131,18 +131,7 @@ export default async function Post({ params }: { params: any }) {
 
       <Tags tags={post.tags} />
 
-      <Link href="/blog">← All Blogs</Link>
-      {/* {related.length ? (
-        <div className="flex flex-col items-start gap-6">
-          <h2>Related posts</h2>
-          <div className="will-change-transform">
-            <PostList posts={related} />
-          </div>
-          <Link href="/blog" underline>
-            ← See all
-          </Link>
-        </div>
-      ) : null} */}
+      <Link href="/blog">← Todos os Blogs</Link>
     </div>
   );
 }
