@@ -12,6 +12,10 @@ Atualmente, estou trabalhando em uma API para transferir uma imagem capturada po
 
 Basicamente, trata-se de uma maneira de enviar arquivos, como imagens e áudio, em um formato alfanumérico especial que pode incluir letras, números e barras, tudo em uma única string. Essa abordagem é rápida para o envio de imagens, no meu caso, visando processamento mais ágil e economia de espaço.
 
+<Alert type="warning">
+ Às vezes, o número de caracteres pode exceder o limite de tamanho de uma variável, já que uma string ocupa mais espaço do que dados binários. É importante ter cuidado com o tamanho limite dos logs, por exemplo.
+</Alert>
+
 Para ilustrar, imagine uma ligação telefônica entre Bob e Ana. Ela deseja enviar uma imagem para Bob, mas não pode simplesmente descrever a imagem, pois isso levaria a uma cópia imprecisa. Ela poderia converter todos os bits e enviar cada dígito, mas isso demandaria muito tempo e recursos. Então, decidem utilizar um método de "criptografia", onde substituem os bits por caracteres.
 
 O base64 foi criado há muito tempo para resolver esse problema de conversão de bits em caracteres. Um dos problemas era o e-mail, onde só era possível enviar texto, não sendo permitido o envio de dados binários, como imagens, vídeos e arquivos.
