@@ -1,0 +1,28 @@
+---
+title: 'Base64'
+publishedAt: '2024-01-12'
+summary: 'Como funciona e para que serve base64'
+tags: ["Code"]
+shortTitle: 'Base64'
+---
+
+Atualmente, estou trabalhando em uma API para transferir uma imagem capturada por um dispositivo móvel e convertê-la para o formato base64. Aqui está tudo o que estudei sobre esse formato.
+
+### Base 64
+
+Basicamente, trata-se de uma maneira de enviar arquivos, como imagens e áudio, em um formato alfanumérico especial que pode incluir letras, números e barras, tudo em uma única string. Essa abordagem é rápida para o envio de imagens, no meu caso, visando processamento mais ágil e economia de espaço.
+
+Para ilustrar, imagine uma ligação telefônica entre Bob e Ana. Ela deseja enviar uma imagem para Bob, mas não pode simplesmente descrever a imagem, pois isso levaria a uma cópia imprecisa. Ela poderia converter todos os bits e enviar cada dígito, mas isso demandaria muito tempo e recursos. Então, decidem utilizar um método de "criptografia", onde substituem os bits por caracteres.
+
+O base64 foi criado há muito tempo para resolver esse problema de conversão de bits em caracteres. Um dos problemas era o e-mail, onde só era possível enviar texto, não sendo permitido o envio de dados binários, como imagens, vídeos e arquivos.
+
+Exemplo de de imagem 5x5 em dígitos binários:
+
+```text
+010001 110100 100101 000110 001110 000011 011101 100001 000000 010000 000000 000001 000000 001111 000000 000000 000000 001111 111100 000000 000000 000000 000000 000000 000000 000010 110000 000000 000000 000000 000000 000000 000000 010000 000000 000001 000000 000000 000000 000010 000000 100100 010000 000001 000000 000011 001011
+```
+Imagem convertida para Base64 tenha esta aparência:
+
+```text   
+R0lGODdhAQABAPAAAP8AAAAAACwAAAAAAQABAAACAkQBADs
+```
