@@ -4,19 +4,19 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "404 | Nicolas Alan",
   description:
-    "Uh oh! This page does not exist",
+    "Ah! Esta página não existe",
 };
 
 const Custom404 = (): JSX.Element => (
   <div className="flex flex-col gap-2">
-    <h1>404 - Page not found</h1>
+    <h1>404 - Página não encontrada</h1>
     <p className="text-secondary">
-      Uh oh! This page does not exists, maybe you clicked an old link or
-      misspelled. Please try again…
+        Ah! Esta página não existe, talvez você tenha clicado em um link antigo ou
+        com erros ortográficos. Por favor, tente novamente …
     </p>
     <div className="h-2" />
     <Link href="/" underline>
-      Return home
+      Voltar para home
     </Link>
   </div>
 );
