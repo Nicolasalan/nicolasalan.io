@@ -6,6 +6,8 @@ import {
 import rehypeSlug from "rehype-slug";
 import rehypePrism from "rehype-prism-plus";
 
+// import 
+import remarkMath from "remark-math";
 
 const getSlug = (doc: any) => doc._raw.sourceFileName.replace(/\.mdx$/, "");
 
@@ -71,5 +73,6 @@ export default makeSource({
   documentTypes: [Post, Project],
   mdx: {
     rehypePlugins: [rehypePrism, rehypeSlug],
+    remarkPlugins: [remarkMath],
     },
 });

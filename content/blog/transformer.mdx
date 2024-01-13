@@ -10,7 +10,11 @@ Basicamente toda a arquitetura de modelos de *deep learning* é construído por 
 cada camada executa uma função, um conjunto de camadas é um bloco e um conjunto
 de blocos forma um modelo.
 
+<Image rounded width={600} height={400} caption="Blocos do Transformers" src="/blog/transformer/blocks.png" />
+
 O modelo **`Vit Tranformer`** é dividido nas seguintes partes:
+
+<Image rounded width={600} height={400} caption="Blocos do Transformers" src="/blog/transformer/block.png" />
 
 #### 1. **Incorporação de patch + posição (entradas):**
 
@@ -39,6 +43,91 @@ O modelo **`Vit Tranformer`** é dividido nas seguintes partes:
 #### 7. **MLP Head:**
 
     Aqui somente produz a saída desejada.
+
+<Image rounded width={600} height={400} caption="4 Equações Gerais" src="/blog/transformer/math.png" />
+
+## Resumo de cada uma das equações:
+
+### 1) Embeddings de patch
+O Transformer utiliza um vetor latente constante `(uma dimensão definida, o termo "vetor latente" se refere a uma
+Representação de cada característica da entrada)` e mapeia cada vetor em 1D, pois é mais "treinável" para a máquina. 
+Fazer essa transformação é chamado de **embeddings de patch**, que seria vetorizar os valores e deixar em uma dimensão só, além de 
+adicionar uma posição para cada patch, para saber a ordem.
+
+### 2) Codificador Transformer
+O codificador consiste em várias camadas de auto atenção chamadas de **Multi-Head Self-Attention (MSA)**,
+O layer Norm é aplicado antes de cada bloco e uma conexão residual após os blocos.
+
+### 3) Mesmo que a 2.
+Mesma equação realizado na 2.
+
+### 4) Tokenização
+Adicionamos um token na sequência de patchs e produzir uma saída para o modelo.
+
+<Image rounded width={600} height={400} caption="Relação dos blocos" src="/blog/transformer/equations.png" />
+
+### Para mais detalhes:
+
+#### Visão geral da Equação 1
+
+<MathBlock caption="Equação Z0">
+  {"Z_0 = [X_{class}; X_{2p}E; ...;X_{np}E]+E_{pos}, E R^{(p^2*C)^D}, E_{pos} R^{(N*1)^D}"}
+</MathBlock>
+
+Equação da tokenização !!!, onde enfim incorpora os patchs e a posição nos valores de entradas.
+`O valores de entradas podem ser uma imagem, textou ou qualquer outro tipo de dado.`
+
+Um pseudocódigo:
+
+```python
+x_input = [class_token, image_patch_1, image_patch_2, image_patch_3...] + 
+[class_token_position, image_patch_1_position, image_patch_2_position, 
+image_patch_3_position...]
+``` 
+
+Onde cada vetor dessa lista/vetor pode ser aprendido. `requires_grad=True`
+
+#### Visão geral da Equação 2
+
+<MathBlock caption="Equação Zl">
+  {"Z_l = MSA(LN(Z_{l-1})) + Z_{l-1}, l=1...L"}
+</MathBlock>
+
+Nessa equação mostra que para cada camada, existe um MSA envolvendo uma camada layer norm (LN).
+A adição final é uma conexão residual, que é basicamente adicionar as informações originais a saída. Ou seja, o modelo
+diz simplesmente:
+> Mantenha parte da informação original, pois ela pode ser útil!
+
+<Image rounded width={600} height={400} caption="Conexão residual" src="/blog/transformer/residual.png" />
+
+Um pseudocódigo:
+```python
+x_output_MSA_block = MSA_layer(LN_layer(x_input)) + x_input
+```
+#### Visão geral da Equação 3
+
+<MathBlock caption="Equação Zl">
+  {"Z_l = MLP(LN(Z_{l}')) + Z_{l}, l=1...L"}
+</MathBlock>
+
+A equação é quase o mesmo que a equação 2, porém com uma MLP (Multi Layer Perception) no final, ao invés de uma MSA, envolto de uma (LN).
+
+Um pseudocódigo:
+```python
+x_output_MLP_block = MLP_layer(LN_layer(x_output_MSA_block)) + x_output_MSA_block
+```
+#### Visão geral da Equação 4
+
+<MathBlock caption="Equação final">
+  {"y = LN(Z_l^0)"}
+</MathBlock>
+
+Para última camada, a saída é um token de índice 0, envolto de uma camada (LN).
+
+Um pseudocódigo:
+```python
+y = Linear_layer(LN_layer(x_output_MLP_block[0]))
+```
 
 <div className="text-tertiary text-sm mt-8">
 Continua...
