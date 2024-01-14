@@ -8,30 +8,29 @@ shortTitle: 'ViT'
 
 ## Equação 1: Dividir os dados em patches
 
-> Se puder dividir os dados de uma forma facil de enteder e boa de aprender, é provavel que o algoritmo tenha um maior
-desempenho com dados reais.
+> Se puder dividir os dados de uma forma facil de enteder e boa de aprender, é provavel que o algoritmo tenha um maior desempenho com dados reais.
 
-Para comecar primeiro precisa criar os embeddings de classe, posicao e patch, Assim comecando por uma incorporacao de pacth,
+Para começar primeiro precisa criar os embeddings de classe, posição e patch, Assim começando por uma incorporação de pacth.
 
 <Alert type="attention">
-  Incorporacao se refere a transformar o dados em um vetor (geralmente) de uma forma que o algortimo consiga enteder mais facil.
+  Incorporação se refere a transformar os dados em um vetor (geralmente) de uma forma que o algoritmo consiga entender mais fácil.
 </Alert>
 
 Analisando o artigo:
 
 * *D* tamanho do embeddings de patch.
-* Imagem com dimensao *H* x *W x C*.
+* Imagem com dimensão *H* x *W x C*.
   * (*H* x *W*) - (altura, largura).
   * *C* - numero de canais (RGB = 3).
-* Tamanho *N×(P^2⋅C)* da sequencia de patch 2D.
-  * *(P, P)* - resolucao da imagem em cada patch.
-  * *N = HW / P^2* numero resultante de patches que tambem serve como entrada para o MSA.
+* Tamanho *N×(P^2⋅C)* da sequência de patch 2D.
+  * *(P, P)* - resolução da imagem em cada patch.
+  * *N = HW / P^2* numero resultante de patches que também serve como entrada para o MSA.
 
 <Image rounded width={600} height={400} caption="Visualização da transformação de imagem em patch" src="/blog/patchs/patch.jpeg" />
 
 ### Calculando manualmente utilizando Python
 
-Um exemplo de como calcular o numero de patches de uma imagem com altura 224, largura 224 e patch de tamanho 16.
+Um exemplo de como calcular o número de patches de uma imagem com altura 224, largura 224 e patch de tamanho 16.
 
 ```python
 height = 224 # Altura
@@ -48,7 +47,7 @@ print(f"Number of patches (N) with image height (H={height}), width (W={width}) 
 Number of patches (N) with image height (H=224), width (W=224) and patch size (P=16): 196
 ```
 
-Agora que temos o numero de patches, precisa calcular o tamanho de vetor de cada patch.
+Agora que temos o número de patches, precisa calcular o tamanho de vetor de cada patch.
 
 * **INPUT:** Imagem com dimensao *H* x *W x C*.
 * **OUTPUT:** Sequencia de patch 2D com tamanho *N×(P^2⋅C)*.
@@ -69,12 +68,12 @@ Output shape (single 2D image flattened into patches): (196, 768)
 ```
 
 <Alert type="attention">
-Todos os codigos se complementam !!
+Todos os códigos se complementam!!
 </Alert>
 
 ### Transformando uma imagem real em um patch
 
-A parte principal de replicar um artigo é criar partes menores (camadas) se concentrando na entrada e saida.
+A parte principal de replicar um artigo é criar partes menores (camadas) se concentrando na entrada e saída.
 
 ```python
 # View single image
@@ -83,7 +82,7 @@ plt.title(class_names[label])
 plt.axis(False);
 ```
 
-Para comecar do basico, mostranso somente a parte superior antes de fragmentar a imagem por inteiro.
+Para começar do básico, mostrando somente a parte superior antes de fragmentar a imagem por inteiro.
 
 ```python
 # Altere o formato da imagem para ser compatível com matplotlib (color_channels, height, width) -> (height, width, color_channels)
@@ -123,7 +122,7 @@ Number of patches per row: 14.0
 Patch size: 16 pixels x 16 pixels
 ```
 
-Agora que fizemos para a parte suprior vamos fazer para a imagem inteira.
+Agora que fizemos para a parte superior vamos fazer para a imagem inteira.
 
 ```python
 # Configure hiperparâmetros e certifique-se de que img_size e patch_size sejam compatíveis
