@@ -71,7 +71,7 @@ Output shape (single 2D image flattened into patches): (196, 768)
 Todos os códigos se complementam!!
 </Alert>
 
-### Transformando uma imagem real em um patch
+## Transformando uma imagem real em um patch
 
 A parte principal de replicar um artigo é criar partes menores (camadas) se concentrando na entrada e saída.
 
@@ -173,5 +173,296 @@ Total patches: 196.0
 Patch size: 16 pixels x 16 pixels
 ```
 
-*Continua (4.3) ...*
+### Criando patches de imagem com `torch.nn.Conv2d()`
+
+Essa incorporação de patches é o mesmo que utilizar `torch.nn.Conv2d()`, uma alternativa seria a entrada como formado de 
+mapas de características (*pesos/ativações*) como na CNN.
+
+<Alert type="attention">
+Ou seja, podemos simplesmente utilizar um `kernel_size` e um `stripe` para criar os patches, que seria o mesmo, 
+do que fazer os `patch_size`.
+</Alert>
+
+No exemplo de código utilizamos uma imagem 2D e convertemos em uma sequência de 1D de fragmentos 2D achatados.
+
+Em Pytorch podemos utilizar:
+
+* `torch.nn.Conv2d()` para fragmentar a imagem em uma sequência de mapas de características.
+* `torch.nn.flatten()` para achatá-los em uma sequência de vetores.
+
+Passamos como parâmetros `kernel_size` e `stride` com o mesmo valor de `patch_size` para obter o mesmo resultado.
+Para cada kernel convolucional de tamanho (patch_size, patch_size), e o `stripe` tera `patch_size` píxeis de tamanho.
+
+* `patch_size` = 16 -> Tamanho do patch
+* `kernel_size` = (patch_size, patch_size) -> altura e largura do kernel
+* `stride` = (patch_size) -> Tamanho dos píxeis
+
+<Image rounded width={600} height={400} caption="nn.Conv2d" src="/blog/patchs/conv.png" />
+
+Além disso, definimos `in_channels=3`, pois são 3 canais de cores e `out_channels=768`, esse valor é o *D* da equação 1.
+Esse valor significa que cada imagem terá um vetor de incorporação de tamanho 768, para ser aprendido.
+
+```python
+from torch import nn
+
+patch_size=16
+
+conv2d = nn.Conv2d(in_channels=3, 
+                   out_channels=768, 
+                   kernel_size=patch_size,
+                   stride=patch_size,
+                   padding=0) # padding=0 -> sem padding, ou seja nao adiciona pixels na borda
+```
+Passando a imagem pela camada `conv2d` e verificando a forma de saída.
+
+```python
+image_out_of_conv = conv2d(image.unsqueeze(0)) 
+print(image_out_of_conv.shape)
+```
+```
+torch.Size([1, 768, 14, 14])
+```
+
+Isso significa que:
+```
+torch.Size([1, 768, 14, 14]) -> [batch_size, embedding_dim, feature_map_height, feature_map_width]
+```
+
+Para visualizar os mapas:
+```python
+import random
+random_indexes = random.sample(range(0, 758), k=5)
+print(f"Showing random convolutional feature maps from indexes: {random_indexes}")
+
+fig, axs = plt.subplots(nrows=1, ncols=5, figsize=(12, 12))
+
+for i, idx in enumerate(random_indexes):
+    image_conv_feature_map = image_out_of_conv[:, idx, :, :] 
+    axs[i].imshow(image_conv_feature_map.squeeze().detach().numpy())
+    axs[i].set(xticklabels=[], yticklabels=[], xticks=[], yticks=[]);
+```
+
+<Image rounded width={600} height={400} caption="Mapas de recursos" src="/blog/patchs/maps.png" />
+
+Essa visualização pode mudar com o tempo, conforme a rede aprende, pois são pesos. Essa representação é de acordo 
+com a imagem original, ou seja, cada mapa de características é uma representação da imagem original.
+
+Em forma de valores seria:
+  
+```python
+single_feature_map = image_out_of_conv[:, 0, :, :]
+single_feature_map, single_feature_map.requires_grad
+```
+
+<Image rounded width={600} height={400} caption="Saida em valores" src="/blog/patchs/one.png" />
+
+<details>
+
+Saida do código:
+
+```
+(tensor([[[ 0.4732,  0.3567,  0.3377,  0.3736,  0.3208,  0.3913,  0.3464,
+            0.3702,  0.2541,  0.3594,  0.1984,  0.3982,  0.3741,  0.1251],
+          [ 0.4178,  0.4771,  0.3374,  0.3353,  0.3159,  0.4008,  0.3448,
+            0.3345,  0.5850,  0.4115,  0.2969,  0.2751,  0.6150,  0.4188],
+          [ 0.3209,  0.3776,  0.4970,  0.4272,  0.3301,  0.4787,  0.2754,
+            0.3726,  0.3298,  0.4631,  0.3087,  0.4915,  0.4129,  0.4592],
+          [ 0.4540,  0.4930,  0.5570,  0.2660,  0.2150,  0.2044,  0.2766,
+            0.2076,  0.3278,  0.3727,  0.2637,  0.2493,  0.2782,  0.3664],
+          [ 0.4920,  0.5671,  0.3298,  0.2992,  0.1437,  0.1701,  0.1554,
+            0.1375,  0.1377,  0.3141,  0.2694,  0.2771,  0.2412,  0.3700],
+          [ 0.5783,  0.5790,  0.4229,  0.5032,  0.1216,  0.1000,  0.0356,
+            0.1258, -0.0023,  0.1640,  0.2809,  0.2418,  0.2606,  0.3787],
+          [ 0.5334,  0.5645,  0.4781,  0.3307,  0.2391,  0.0461,  0.0095,
+            0.0542,  0.1012,  0.1331,  0.2446,  0.2526,  0.3323,  0.4120],
+          [ 0.5724,  0.2840,  0.5188,  0.3934,  0.1328,  0.0776,  0.0235,
+            0.1366,  0.3149,  0.2200,  0.2793,  0.2351,  0.4722,  0.4785],
+          [ 0.4009,  0.4570,  0.4972,  0.5785,  0.2261,  0.1447, -0.0028,
+            0.2772,  0.2697,  0.4008,  0.3606,  0.3372,  0.4535,  0.4492],
+          [ 0.5678,  0.5870,  0.5824,  0.3438,  0.5113,  0.0757,  0.1772,
+            0.3677,  0.3572,  0.3742,  0.3820,  0.4868,  0.3781,  0.4694],
+          [ 0.5845,  0.5877,  0.5826,  0.3212,  0.5276,  0.4840,  0.4825,
+            0.5523,  0.5308,  0.5085,  0.5606,  0.5720,  0.4928,  0.5581],
+          [ 0.5853,  0.5849,  0.5793,  0.3410,  0.4428,  0.4044,  0.3275,
+            0.4958,  0.4366,  0.5750,  0.5494,  0.5868,  0.5557,  0.5069],
+          [ 0.5880,  0.5888,  0.5796,  0.3377,  0.2635,  0.2347,  0.3145,
+            0.3486,  0.5158,  0.5722,  0.5347,  0.5753,  0.5816,  0.4378],
+          [ 0.5692,  0.5843,  0.5721,  0.5081,  0.2694,  0.2032,  0.1589,
+            0.3464,  0.5349,  0.5768,  0.5739,  0.5764,  0.5394,  0.4482]]],
+        grad_fn=<SliceBackward0>),
+ True)
+```
+</details>
+
+O `grad_fn` significa que o Pytorch esta rastreando os gradientes de mapa, ou seja, quando for treinado ele será atualizado.
+
+### Achatando a incorporação do patch com `torch.nn.Flatten()`
+
+A saída ainda tem como dimensão 2D, porem precisa de uma sequência de 1D, para isso utilizamos `torch.nn.Flatten()`.
+
+O que temos agora é o *(P^2*C) = (16^2*3) = 768*. E a saída desejada uma saída de 1D de patches de 2D achatados. Entao o que \
+precisa é o *N* números de patches:
+
+```
+(196, 768) -> (número de patches, dimensão de incorporação) ->   N×(P^2⋅C)
+```
+
+O Pytorch já possui um componente chamado `torch.nn.Flatten()`, que nivela a entrada em uma sequência de 1D.
+
+<Alert type="warning">
+Não queremos o tensor inteiro, somente o `feature_map_height` e `feature_map_width` de `image_out_of_conv`.
+</Alert>
+
+```python
+flatten = nn.Flatten(start_dim=2,  # feature_map_height
+                      end_dim=3)   # feature_map_width
+```
+
+#### Resumo
+
+1. Insira uma única imagem e adicione a uma camada `conv2d` para transformar em mapas de recurso 2D (incorporação de patch).
+2. Passe por um `torch.nn.Flatten()` para transformar os mapas de recursos 2D em uma sequência de 1D.
+
+```python
+plt.imshow(image.permute(1, 2, 0))
+plt.title(class_names[label])
+plt.axis(False);
+print(f"Original image shape: {image.shape}")
+
+# 1. Conv2d
+image_out_of_conv = conv2d(image.unsqueeze(0)) 
+print(f"Image feature map shape: {image_out_of_conv.shape}")
+
+# 2. Flatten
+image_out_of_conv_flattened = flatten(image_out_of_conv)
+print(f"Flattened image feature map shape: {image_out_of_conv_flattened.shape}")
+```
+
+A única diferença é que agora temos (768, 196) e precisa ser (196, 768), o Pytorch já possui uma função para reorganizar o tensor, com o `torch.Tensor.permute()`.
+
+```python
+image_out_of_conv_flattened_reshaped = image_out_of_conv_flattened.permute(0, 2, 1) # [batch_size, P^2•C, N] -> [batch_size, N, P^2•C]
+```
+
+Para visualização:
+  
+```python
+single_flattened_feature_map = image_out_of_conv_flattened_reshaped[:, :, 0] # index: (batch_size, number_of_patches, embedding_dimension)
+
+plt.figure(figsize=(22, 22))
+plt.imshow(single_flattened_feature_map.detach().numpy())
+plt.title(f"Flattened feature map shape: {single_flattened_feature_map.shape}")
+plt.axis(False);
+```
+
+A saída vai ser **extremamente pequena** para ver, mas é possível ver que é uma sequência de 1D. Isso acontece porque
+no artigo original, o Transformers foi projetado para texto e não para imagem. Por isso o ViT transforma uma imagem
+em uma sequência de 1D, igual um texto.
+
+<details>
+
+Visualização do mapa de recursos achatados:
+
+```python
+single_flattened_feature_map, single_flattened_feature_map.requires_grad, single_flattened_feature_map.shape
+```
+
+```
+(tensor([[ 0.4732,  0.3567,  0.3377,  0.3736,  0.3208,  0.3913,  0.3464,  0.3702,
+           0.2541,  0.3594,  0.1984,  0.3982,  0.3741,  0.1251,  0.4178,  0.4771,
+           0.3374,  0.3353,  0.3159,  0.4008,  0.3448,  0.3345,  0.5850,  0.4115,
+           0.2969,  0.2751,  0.6150,  0.4188,  0.3209,  0.3776,  0.4970,  0.4272,
+           0.3301,  0.4787,  0.2754,  0.3726,  0.3298,  0.4631,  0.3087,  0.4915,
+           0.4129,  0.4592,  0.4540,  0.4930,  0.5570,  0.2660,  0.2150,  0.2044,
+           0.2766,  0.2076,  0.3278,  0.3727,  0.2637,  0.2493,  0.2782,  0.3664,
+           0.4920,  0.5671,  0.3298,  0.2992,  0.1437,  0.1701,  0.1554,  0.1375,
+           0.1377,  0.3141,  0.2694,  0.2771,  0.2412,  0.3700,  0.5783,  0.5790,
+           0.4229,  0.5032,  0.1216,  0.1000,  0.0356,  0.1258, -0.0023,  0.1640,
+           0.2809,  0.2418,  0.2606,  0.3787,  0.5334,  0.5645,  0.4781,  0.3307,
+           0.2391,  0.0461,  0.0095,  0.0542,  0.1012,  0.1331,  0.2446,  0.2526,
+           0.3323,  0.4120,  0.5724,  0.2840,  0.5188,  0.3934,  0.1328,  0.0776,
+           0.0235,  0.1366,  0.3149,  0.2200,  0.2793,  0.2351,  0.4722,  0.4785,
+           0.4009,  0.4570,  0.4972,  0.5785,  0.2261,  0.1447, -0.0028,  0.2772,
+           0.2697,  0.4008,  0.3606,  0.3372,  0.4535,  0.4492,  0.5678,  0.5870,
+           0.5824,  0.3438,  0.5113,  0.0757,  0.1772,  0.3677,  0.3572,  0.3742,
+           0.3820,  0.4868,  0.3781,  0.4694,  0.5845,  0.5877,  0.5826,  0.3212,
+           0.5276,  0.4840,  0.4825,  0.5523,  0.5308,  0.5085,  0.5606,  0.5720,
+           0.4928,  0.5581,  0.5853,  0.5849,  0.5793,  0.3410,  0.4428,  0.4044,
+           0.3275,  0.4958,  0.4366,  0.5750,  0.5494,  0.5868,  0.5557,  0.5069,
+           0.5880,  0.5888,  0.5796,  0.3377,  0.2635,  0.2347,  0.3145,  0.3486,
+           0.5158,  0.5722,  0.5347,  0.5753,  0.5816,  0.4378,  0.5692,  0.5843,
+           0.5721,  0.5081,  0.2694,  0.2032,  0.1589,  0.3464,  0.5349,  0.5768,
+           0.5739,  0.5764,  0.5394,  0.4482]], grad_fn=<SelectBackward0>),
+ True,
+ torch.Size([1, 196]))
+```
+</details>
+
+Toda essa parte no artigo é o `Projeção Linear de Patches Flattned`.
+
+## Transformando a camada de incorporação do patch ViT em um módulo PyTorch
+
+Agora precisa colocar tudo em um módulo em Pytorch, para ser mais rápido e fácil de utilizar.
+
+```python
+# Criacao da classe com nome PatchEmbedding e herda de nn.Module
+class PatchEmbedding(nn.Module):
+    """Imagem 2D -> sequncia 1D
+
+    Args:
+        in_channels (int): Numero de canais
+        patch_size (int): Tamanho do patch
+        embedding_dim (int): Tamanho do embedding. padrao 768
+    """
+    def __init__(self,
+                 in_channels:int=3,
+                 patch_size:int=16,
+                 embedding_dim:int=768):
+        super().__init__()
+
+        # Criacao dos patches
+        self.patcher = nn.Conv2d(in_channels=in_channels,
+                                 out_channels=embedding_dim,
+                                 kernel_size=patch_size,
+                                 stride=patch_size,
+                                 padding=0)
+
+        # Redimensionar os patches
+        self.flatten = nn.Flatten(start_dim=2, # somente um vetor
+                                  end_dim=3)
+
+    def forward(self, x):
+        # Verificar se a imagem é divisivel pelo tamanho do patch
+        image_resolution = x.shape[-1]
+        assert image_resolution % patch_size == 0, f"Input image size must be divisble by patch size, image shape: {image_resolution}, patch size: {patch_size}"
+
+        x_patched = self.patcher(x)
+        x_flattened = self.flatten(x_patched)
+        # 6. Reorganizar a incorporação do patch para que o número de patches seja o primeiro
+        return x_flattened.permute(0, 2, 1) # [batch_size, P^2•C, N] -> [batch_size, N, P^2•C]
+```
+
+Para testar:
+
+```python
+set_seeds() # modulos de utilidades
+
+patchify = PatchEmbedding(in_channels=3,
+                          patch_size=16,
+                          embedding_dim=768)
+
+print(f"Input image shape: {image.unsqueeze(0).shape}")
+patch_embedded_image = patchify(image.unsqueeze(0)) 
+print(f"Output patch embedding shape: {patch_embedded_image.shape}")
+```
+```
+Input image shape: torch.Size([1, 3, 224, 224])
+Output patch embedding shape: torch.Size([1, 196, 768])
+```
+
+Toda essa classe se resume a isso:
+
+<Image rounded width={600} height={400} caption="Mapas de recursos" src="/blog/patchs/equation01.png" />
+
+*Continua (4.6) ...*
 
