@@ -1,0 +1,178 @@
+---
+title: 'Vision Transformer - Patches'
+publishedAt: '2024-01-15'
+summary: 'Dividir os dados em patches e criar a classe, posição e incorporação de patches'
+tags: ["Pytorch", "ViT", "Transformer", "Vision"]
+shortTitle: 'ViT'
+---
+
+## Equação 1: Dividir os dados em patches
+
+> Se puder dividir os dados de uma forma facil de enteder e boa de aprender, é provavel que o algoritmo tenha um maior
+desempenho com dados reais.
+
+Para comecar primeiro precisa criar os embeddings de classe, posicao e patch, Assim comecando por uma incorporacao de pacth,
+
+<Alert type="attention">
+  Incorporacao se refere a transformar o dados em um vetor (geralmente) de uma forma que o algortimo consiga enteder mais facil.
+</Alert>
+
+Analisando o artigo:
+
+* *D* tamanho do embeddings de patch.
+* Imagem com dimensao *H* x *W x C*.
+  * (*H* x *W*) - (altura, largura).
+  * *C* - numero de canais (RGB = 3).
+* Tamanho *N×(P^2⋅C)* da sequencia de patch 2D.
+  * *(P, P)* - resolucao da imagem em cada patch.
+  * *N = HW / P^2* numero resultante de patches que tambem serve como entrada para o MSA.
+
+<Image rounded width={600} height={400} caption="Visualização da transformação de imagem em patch" src="/blog/patchs/patch.jpeg" />
+
+### Calculando manualmente utilizando Python
+
+Um exemplo de como calcular o numero de patches de uma imagem com altura 224, largura 224 e patch de tamanho 16.
+
+```python
+height = 224 # Altura
+width = 224 # Largura
+color_channels = 3 # Numero de canais
+patch_size = 16 # Ramanho do patch
+
+# Calculando N *(numero de patches)
+number_of_patches = int((height * width) / patch_size**2)
+print(f"Number of patches (N) with image height (H={height}), width (W={width}) and patch size (P={patch_size}): {number_of_patches}")
+```
+
+```
+Number of patches (N) with image height (H=224), width (W=224) and patch size (P=16): 196
+```
+
+Agora que temos o numero de patches, precisa calcular o tamanho de vetor de cada patch.
+
+* **INPUT:** Imagem com dimensao *H* x *W x C*.
+* **OUTPUT:** Sequencia de patch 2D com tamanho *N×(P^2⋅C)*.
+
+```python
+# input imagem shape
+embedding_layer_input_shape = (height, width, color_channels)
+
+# Output shape
+embedding_layer_output_shape = (number_of_patches, patch_size**2 * color_channels)
+
+print(f"Input shape (single 2D image): {embedding_layer_input_shape}")
+print(f"Output shape (single 2D image flattened into patches): {embedding_layer_output_shape}")
+```
+```
+Input shape (single 2D image): (224, 224, 3)
+Output shape (single 2D image flattened into patches): (196, 768)
+```
+
+<Alert type="attention">
+Todos os codigos se complementam !!
+</Alert>
+
+### Transformando uma imagem real em um patch
+
+A parte principal de replicar um artigo é criar partes menores (camadas) se concentrando na entrada e saida.
+
+```python
+# View single image
+plt.imshow(image.permute(1, 2, 0)) # ajustando a ordem dos canais
+plt.title(class_names[label])
+plt.axis(False);
+```
+
+Para comecar do basico, mostranso somente a parte superior antes de fragmentar a imagem por inteiro.
+
+```python
+# Altere o formato da imagem para ser compatível com matplotlib (color_channels, height, width) -> (height, width, color_channels)
+image_permuted = image.permute(1, 2, 0)
+
+# Índice para traçar a linha superior de pixels corrigidos
+patch_size = 16
+plt.figure(figsize=(patch_size, patch_size))
+plt.imshow(image_permuted[:patch_size, :, :]);
+```
+
+Agora que temos a linha superior da imagem, precisa dividir em patches.
+
+```python
+# Configure hiperparâmetros e certifique-se de que img_size e patch_size sejam compatíveis
+img_size = 224
+patch_size = 16
+num_patches = img_size/patch_size
+assert img_size % patch_size == 0, "Image size must be divisible by patch size"
+print(f"Number of patches per row: {num_patches}\nPatch size: {patch_size} pixels x {patch_size} pixels")
+
+fig, axs = plt.subplots(nrows=1,
+                        ncols=img_size // patch_size,
+                        figsize=(num_patches, num_patches),
+                        sharex=True,
+                        sharey=True)
+
+for i, patch in enumerate(range(0, img_size, patch_size)):
+    axs[i].imshow(image_permuted[:patch_size, patch:patch+patch_size, :]); 
+    axs[i].set_xlabel(i+1)
+    axs[i].set_xticks([])
+    axs[i].set_yticks([])
+```
+
+```
+Number of patches per row: 14.0
+Patch size: 16 pixels x 16 pixels
+```
+
+Agora que fizemos para a parte suprior vamos fazer para a imagem inteira.
+
+```python
+# Configure hiperparâmetros e certifique-se de que img_size e patch_size sejam compatíveis
+img_size = 224
+patch_size = 16
+num_patches = img_size/patch_size
+assert img_size % patch_size == 0, "Image size must be divisible by patch size"
+print(f"Number of patches per row: {num_patches}\
+        \nNumber of patches per column: {num_patches}\
+        \nTotal patches: {num_patches*num_patches}\
+        \nPatch size: {patch_size} pixels x {patch_size} pixels")
+
+# Crie uma série de subtramas
+fig, axs = plt.subplots(nrows=img_size // patch_size, # precisa que int não flutue
+                        ncols=img_size // patch_size,
+                        figsize=(num_patches, num_patches),
+                        sharex=True,
+                        sharey=True)
+
+# Loop pela altura e largura da imagem
+for i, patch_height in enumerate(range(0, img_size, patch_size)): # iterar pela altura
+    for j, patch_width in enumerate(range(0, img_size, patch_size)):# iterar pela largura
+
+        # Plote o patch da imagem permutada (image_permuted -> (Altura, Largura, Canais de cores))
+        axs[i, j].imshow(image_permuted[patch_height:patch_height+patch_size, # iterar pela altura
+                                        patch_width:patch_width+patch_size, # iterar pela largura
+                                        :]) #obtém todos os canais de cores
+
+        # Configure as informações do rótulo, remova as marcas para maior clareza e defina os rótulos para fora
+        axs[i, j].set_ylabel(i+1,
+                             rotation="horizontal",
+                             horizontalalignment="right",
+                             verticalalignment="center")
+        axs[i, j].set_xlabel(j+1)
+        axs[i, j].set_xticks([])
+        axs[i, j].set_yticks([])
+        axs[i, j].label_outer()
+
+# Defina um supertítulo
+fig.suptitle(f"{class_names[label]} -> Patchified", fontsize=16)
+plt.show()
+```
+
+```
+Number of patches per row: 14.0        
+Number of patches per column: 14.0        
+Total patches: 196.0        
+Patch size: 16 pixels x 16 pixels
+```
+
+*Continua (4.3) ...*
+
