@@ -54,8 +54,8 @@ const Item = ({ title, description, image, link, sponsored }: ItemProps) => (
   </li>
 );
 
-export default function Gear() {
-  const categories = gear.reduce((acc, item) => {
+export default function Resource() {
+  const categories = resource.reduce((acc, item) => {
     if (!acc.includes(item.category)) {
       acc.push(item.category);
     }
@@ -96,7 +96,7 @@ export default function Gear() {
           >
             <h2 className="text-secondary">{category}</h2>
             <ul className="grid md:grid-cols-2 gap-x-6 gap-y-8 animated-list">
-              {gear.map((item, index) => {
+              {resource.map((item, index) => {
                 if (item.category === category) {
                   return (
                     <Item
@@ -121,7 +121,7 @@ export default function Gear() {
 }
 
 
-const gear = [
+const resource = [
   {
     name: "Ignat Georgiev",
     category: "Blogs",
@@ -140,5 +140,14 @@ const gear = [
      link: "https://github.com/myshell-ai/OpenVoice",
      sponsored: false,
    },
+   {
+    name: "UvA",
+    category: "Code",
+    image: "/public/read.jpeg",
+    description:
+      "UvA Deep Learning Tutorials!",
+    link: "https://uvadlc-notebooks.readthedocs.io/en/latest/",
+    sponsored: false,
+  },
 ];
 
