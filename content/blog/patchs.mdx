@@ -26,7 +26,7 @@ Analisando o artigo:
   * *(P, P)* - resolução da imagem em cada patch.
   * *N = HW / P^2* numero resultante de patches que também serve como entrada para o MSA.
 
-<Image rounded width={600} height={400} caption="Visualização da transformação de imagem em patch" src="/blog/patchs/patch.jpeg" />
+<Image rounded width={600} height={400} caption="Visualização da transformação de imagem em patch" src="/blog/patchs/patch.png" />
 
 ### Calculando manualmente utilizando Python
 
@@ -49,8 +49,8 @@ Number of patches (N) with image height (H=224), width (W=224) and patch size (P
 
 Agora que temos o número de patches, precisa calcular o tamanho de vetor de cada patch.
 
-* **INPUT:** Imagem com dimensao *H* x *W x C*.
-* **OUTPUT:** Sequencia de patch 2D com tamanho *N×(P^2⋅C)*.
+* **INPUT:** Imagem com dimensão *H* x *W x C*.
+* **OUTPUT:** Sequência de patch 2D com tamanho *N×(P^2⋅C)*.
 
 ```python
 # input imagem shape
@@ -73,7 +73,7 @@ Todos os códigos se complementam!!
 
 ## Transformando uma imagem real em um patch
 
-A parte principal de replicar um artigo é criar partes menores (camadas) se concentrando na entrada e saída.
+A parte principal de replicar um artigo é criar partes menores (camadas), se concentrando na entrada e saída.
 
 ```python
 # View single image
@@ -183,9 +183,9 @@ Ou seja, podemos simplesmente utilizar um `kernel_size` e um `stripe` para criar
 do que fazer os `patch_size`.
 </Alert>
 
-No exemplo de código utilizamos uma imagem 2D e convertemos em uma sequência de 1D de fragmentos 2D achatados.
+No exemplo do código, utiliza uma imagem 2D e convertemos em uma sequência de 1D de fragmentos 2D achatados.
 
-Em Pytorch podemos utilizar:
+No Pytorch podemos utilizar:
 
 * `torch.nn.Conv2d()` para fragmentar a imagem em uma sequência de mapas de características.
 * `torch.nn.flatten()` para achatá-los em uma sequência de vetores.
@@ -462,12 +462,14 @@ Output patch embedding shape: torch.Size([1, 196, 768])
 
 Toda essa classe se resume a isso:
 
-<Image rounded width={600} height={400} caption="Mapas de recursos" src="/blog/patchs/equation01.png" />
+<Image rounded width={600} height={400} caption="Mapas de recursos" src="/blog/patchs/equation.png" />
 
 ## Criando a incorporação do token de classe
 
-Para criar uma incporporacao de token ao patches que possa ser aprendida, precisa criar em uma formado,
-`embedding_dimension` chamado de (*D*) e adicionar a uma dimensao `number_of_patches` chamado de (*N*).
+<Image rounded width={600} height={400} caption="Token" src="/blog/patchs/firsts.png" />
+
+Para criar uma incorporação de token aos patches que possa ser aprendida, precisa criar em um formado,
+`embedding_dimension` chamado de (*D*) e adicionar a uma dimensão `number_of_patches` chamado de (*N*).
 
 Um pseudocódigo:
 
@@ -478,12 +480,12 @@ patch_embedding_with_class_token = torch.cat((class_token, patch_embedding), dim
 ```
 
 <Alert type="attention">
-  A concatenacao acontece `torch.cat()`com dimensao `dim=1`.
+  A concatenação acontece `torch.cat()`com dimensão `dim=1`.
 </Alert>
 
-Para criar uma incporporacao de token ao patches que possa ser aprendida, precisa do `batch_size` e dimensao
-do patches, depois cria um `torch.ones()` (tensor de 1) com o tamanho do `batch_size` e `embedding_dimension`, e depois passa
-para o `torch.nn.Parameter()` para que possa ser aprendido.
+Para criar uma incorporação de token aos patches que possa ser aprendida, precisa do `batch_size` e dimensão
+dos patches, depois cria um `torch.ones()` (tensor de 1) com o tamanho do `batch_size` e `embedding_dimension`, e depois passa
+para o `torch.nn.Parameter()` para poder ser aprendido.
 
 ```python
 # Tamanho do batch size
@@ -507,7 +509,7 @@ Class token shape: torch.Size([1, 1, 768]) -> [batch_size, number_of_tokens, emb
 ```
 
 <Alert type="attention">
-  Aqui esta criando com `torch.ones`, mas na realidade utiliza o `torch.randn()`, para gerar dados aleatorios,
+  Aqui está criando com `torch.ones`, mas na realidade utiliza o `torch.randn()`, para gerar dados aleatórios,
   e ir melhorando com o tempo.
 </Alert>
 
@@ -537,5 +539,114 @@ Sequence of patch embeddings with class token prepended shape: torch.Size([1, 19
 
 <Image rounded width={600} height={400} caption="Token em primeiro" src="/blog/patchs/token.png" />
 
-*Continua (4.6) ...*
+## Criando a incorporação de posição
+
+Agora é necessário criar uma incorporação de posição aos patches, ou seja, criar uma ordem.
+
+<Math>{"E_{pos}"}</Math>
+
+<Image rounded width={600} height={400} caption="Posição" src="/blog/patchs/posicao.png" />
+
+A sequência que será gerada com a posição servira como entrada para o MSA.
+
+```python
+# Calcular o N (numeros de patches)
+number_of_patches = int((height * width) / patch_size**2)
+
+# Dimensao do embedding
+embedding_dimension = patch_embedded_image_with_class_embedding.shape[2]
+
+# Criarcao do tensor de posicao
+position_embedding = nn.Parameter(torch.ones(1,
+                                             number_of_patches+1,
+                                             embedding_dimension),
+                                  requires_grad=True) # deixar que possa ser aprendido
+
+# Mostrar 10 posicoes
+print(position_embedding[:, :10, :10])
+print(f"Position embeddding shape: {position_embedding.shape} -> [batch_size, number_of_patches, embedding_dimension]")
+```
+
+```
+tensor([[[1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+         [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+         [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+         [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+         [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+         [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+         [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+         [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+         [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.],
+         [1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]]], grad_fn=<SliceBackward0>)
+Position embeddding shape: torch.Size([1, 197, 768]) -> [batch_size, number_of_patches, embedding_dimension]
+```
+
+<Alert type="attention">
+  É normal que todos os valores aumentem em 1, porque o embeddings de posição é criado com `torch.ones()`.
+</Alert>
+
+```python
+# Adicionar o position_embedding ao patch_embedded_image_with_class_embedding
+patch_and_position_embedding = patch_embedded_image_with_class_embedding + position_embedding
+print(patch_and_position_embedding)
+print(f"Patch embeddings, class token prepended and positional embeddings added shape: {patch_and_position_embedding.shape} -> [batch_size, number_of_patches, embedding_dimension]")
+```
+
+```
+tensor([[[ 2.0000,  2.0000,  2.0000,  ...,  2.0000,  2.0000,  2.0000],
+         [ 0.0855,  1.2454,  0.7708,  ...,  1.6768,  0.5485,  1.3496],
+         [ 0.2573,  1.1955,  0.6430,  ...,  1.5823,  0.6542,  1.3261],
+         ...,
+         [-0.0072,  1.2795,  0.7196,  ...,  1.7624,  0.5416,  1.3581],
+         [ 0.0161,  1.1652,  0.8424,  ...,  1.7489,  0.4522,  1.3486],
+         [ 0.0740,  1.1383,  0.8843,  ...,  1.5847,  0.5283,  1.3112]]],
+       grad_fn=<AddBackward0>)
+Patch embeddings, class token prepended and positional embeddings added shape: torch.Size([1, 197, 768]) -> [batch_size, number_of_patches, embedding_dimension]
+```
+
+### Um resumo sobre tudo
+
+```python
+set_seeds()
+
+# 1. Defina o tamanho do patch
+patch_size = 16
+
+# 2. Imprima a forma do tensor da imagem original e obtenha as dimensões da imagem
+print(f"Image tensor shape: {image.shape}")
+height, width = image.shape[1], image.shape[2]
+
+# 3. Obtenha o tensor de imagem e adicione a dimensão do lote
+x = image.unsqueeze(0)
+print(f"Input image with batch dimension shape: {x.shape}")
+
+# 4. Crie uma camada de incorporação de patch
+patch_embedding_layer = PatchEmbedding(in_channels=3,
+                                       patch_size=patch_size,
+                                       embedding_dim=768)
+
+# 5. Passe a imagem pela camada de incorporação de patch
+patch_embedding = patch_embedding_layer(x)
+print(f"Patching embedding shape: {patch_embedding.shape}")
+
+# 6. Crie incorporação de token de classe
+batch_size = patch_embedding.shape[0]
+embedding_dimension = patch_embedding.shape[-1]
+class_token = nn.Parameter(torch.ones(batch_size, 1, embedding_dimension),
+                           requires_grad=True) 
+print(f"Class token embedding shape: {class_token.shape}")
+
+# 7. Anexe a incorporação de token de classe à incorporação de patch
+patch_embedding_class_token = torch.cat((class_token, patch_embedding), dim=1)
+print(f"Patch embedding with class token shape: {patch_embedding_class_token.shape}")
+
+# 8. Criar incorporação de posição
+number_of_patches = int((height * width) / patch_size**2)
+position_embedding = nn.Parameter(torch.ones(1, number_of_patches+1, embedding_dimension),
+                                  requires_grad=True) 
+
+# 9. Adicione incorporação de posição à incorporação de patch com token de classe
+patch_and_position_embedding = patch_embedding_class_token + position_embedding
+print(f"Patch and position embedding shape: {patch_and_position_embedding.shape}")
+```
 

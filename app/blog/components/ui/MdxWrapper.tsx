@@ -9,6 +9,7 @@ import WeatherList from "../mdx/WeatherList";
 import LinkPreview from "../mdx/LinkPreview";
 // 
 import MathBlock from "../mdx/MathBlock";
+import Math from "../mdx/Math";
 
 interface CustomLinkProps
   extends React.DetailedHTMLProps<
@@ -43,6 +44,7 @@ const components = {
   Link: CustomLink,
   Alert: Alert,
   MathBlock: MathBlock,
+  Math: Math,
   Parallax: Parallax,
   Weather: Weather,
   WeatherList: WeatherList,

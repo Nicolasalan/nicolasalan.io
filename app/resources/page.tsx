@@ -140,14 +140,5 @@ const resource = [
      link: "https://github.com/myshell-ai/OpenVoice",
      sponsored: false,
    },
-   {
-    name: "UvA",
-    category: "Code",
-    image: "/public/read.jpeg",
-    description:
-      "UvA Deep Learning Tutorials!",
-    link: "https://uvadlc-notebooks.readthedocs.io/en/latest/",
-    sponsored: false,
-  },
 ];
 
