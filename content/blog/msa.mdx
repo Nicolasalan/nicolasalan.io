@@ -1,0 +1,31 @@
+---
+title: 'Vision Transformer (ViT) - Atenção Multi-Cabeça (MSA)'
+publishedAt: '2024-01-21'
+summary: 'Criando a atencão multi-cabeça (MSA) do Vision Transformer (ViT) em Pytorch.'
+tags: ["Pytorch", "ViT", "Transformer", "Vision"]
+shortTitle: 'ViT'
+---
+
+## Atenção Multi-Cabeça (MSA)
+
+Na primeira imagem, em vermelho, está o MSA, o foco desse conteúdo. Em azul o Layer Normalization (LN) e em roxo
+a conexão residual.
+
+Para simplificar o processo, o pytorch já tem uma implementação de MSA e de LN.
+
+* **Autoatenção multicabeças (MSA)** - `torch.nn.MultiheadAttention()`.
+* **Norma (LN ou LayerNorm)** - `torch.nn.LayerNorm()`.
+* **Conexão residual** - adicione a entrada a saída.
+
+### A camada LayerNorm (LN)
+
+Na documentação oficial do pytorch, a LN é mais utilizada em RNNs. Para o nosso caso o parâmetro principal é o 
+`normalized_shape` que é o número de features da entrada, no caso do ViT é o número de patches que é 768.
+
+<Alert type="attention">
+A normalização de camada ajuda o modelo a generalizar o modelo e treinar mais rápido.
+</Alert>
+
+Uma analogia que me ajuda a entender é que a normalização é como fosse as escadas, se deixar todas com a mesma altura e 
+comprimento é muito mais fácil e rápido de subir, porem se foram cada degrau com um tamanho diferente, fica mais difícil 
+de subir e mais lento. Assim, normalizar seria como deixar os dados com uma distribuição semelhante (médias e desvios padrão semelhante).
