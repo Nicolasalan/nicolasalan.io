@@ -19,6 +19,7 @@
     "@vercel/analytics": "^1.1.1",
     "@vercel/og": "^0.5.20",
     "@vercel/speed-insights": "^1.0.3",
+    "@webcontainer/api": "^1.1.9",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "contentlayer": "^0.3.4",
