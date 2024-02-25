@@ -208,3 +208,7 @@ dist
 
 .DS_Store
 **/.DS_Store
+
+.contentlayer/*
+.contentlayer/generated/Post/*
+.contentlayer/generated/Post/*.mdx.json

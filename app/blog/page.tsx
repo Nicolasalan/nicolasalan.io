@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { allPosts } from ".contentlayer/generated";
 import PostList from "./components/ui/PostList";
-import Sidebar from "./components/ui/Sidebar"; 
 
 export const metadata: Metadata = {
   title: "Blog | Nicolas Alan",
@@ -18,7 +17,6 @@ export default function Blog() {
   return (
     <div className="flex">
       {/* Barra lateral */}
-      <Sidebar />
 
       {/* Conteúdo principal */}
       <div className="flex flex-col gap-16 md:gap-24">
