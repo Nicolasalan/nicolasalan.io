@@ -1,12 +1,12 @@
 ---
-title: 'Fundamentos do Pytorch'
-publishedAt: '2024-02-13'
-summary: 'Conceitos fundamentais do Pytorch'
+title: "Criando tensores com Pytorch"
+publishedAt: "2024-02-13"
+summary: "Conceitos fundamentais do Pytorch"
 tags: ["Pytorch"]
-shortTitle: 'Pytorch'
+shortTitle: "Pytorch"
 ---
 
-# Pytorch - Fundamentos
+# Pytorch - Criando tensores
 
 ## Introdução a Tensores
 
@@ -14,12 +14,103 @@ Tensores são uma forma de representar dados numericamente. Esses dados podem se
 
 ## Criando tensores
 
-## Informações sobre tensores
+Todos os dados podem ser representados de forma numérica, por exemplo, uma imagem pode ser representado de formar `[3, 224, 224]`. Onde o primeiro valor é a quantidade de canais, o segundo e terceiro são a altura e largura da imagem. Nesse mesmo exemplo o tensor teria 3 dimensões.
 
-## Manipulando tensores
+### Escalar
 
-## PyTorch x NumPy
+A primeira forma, por assim dizer, de um tensor é um escalar, seria um tensor com dimensão zero.
 
-## Reprodutibilidade
+```python
+scalar = torch.tensor(7)
+scalar
+```
 
-## Tensores na GPU
+```txt
+output: tensor(7)
+```
+
+Embora se somente um único número é do tipo `Tensor`
+
+A partir desse numero podemos extrair informações como o tipo de dado que ele armazena, o tipo de dispositivo que ele está armazenado e etc.
+
+```python
+scalar.ndim # dimensao
+scalar.item() # transforma o tensor em um numero
+scalar.dtype # tipo de dado
+scalar.device # dispositivo que o tensor esta armazenado
+```
+
+### Vetor
+
+Agora, um vetor é um tensor de dimensão única. Mas que pode ter muitos valores
+como `[1, 2]`, `[1, 3, 5]`e por assim vai. Esse vetor pode representar qualquer coisa, como`[quartos, banheiros]`.
+
+<Alert type="attention">
+A importância dos vetores é que são flexíveis.
+</Alert>
+
+```python
+# Vector
+vector = torch.tensor([7, 7])
+vector
+```
+
+```txt
+output: tensor([7, 7])
+```
+
+Agora esse vetor tem somente uma dimensão, ao usar `vector.ndim`, o retorno será 1. Podemos saber a dimensão do tensor contando o número de `[`.
+
+Outra coisa importante sobre os vetores é o atributo `shape`, que retorna como os elementos dentro dele são organizados.
+
+```python
+vector.shape
+```
+
+O retorno é `torch.Size([2])`, pois possui dois valores dentro dele.
+
+### Matriz
+
+```python
+# Matrix
+MATRIX = torch.tensor([[7, 8],
+                       [9, 10]])
+MATRIX
+```
+
+São flexíveis iguais aos tensores, mas com uma dimensão a mais. Para saber sua dimensão, basta usar `matrix.ndim`.
+
+Já o seu `shape` utilizando `MATRIX.shape`.
+
+```python
+MATRIX.shape
+Out: torch.Size([2, 2])
+```
+
+Pois retorna 2 linhas e 2 colunas.
+
+<Image rounded width={800} height={600} caption="types" src="/blog/pytorch/types.png" />
+
+### Tensores
+
+```python
+TENSOR = torch.tensor([[[1, 2, 3],
+                        [3, 6, 9],
+                        [2, 4, 5]]])
+TENSOR
+```
+
+```txt
+Out: tensor([[[1, 2, 3],
+         [3, 6, 9],
+         [2, 4, 5]]])
+```
+
+Para saber a dimensão e o tamanho basta usar os mesmos comandos:
+
+```python
+TENSOR.ndim
+TENSOR.shape
+```
+
+<Image rounded width={800} height={600} caption="Tensor" src="/blog/pytorch/tensor.png" />
