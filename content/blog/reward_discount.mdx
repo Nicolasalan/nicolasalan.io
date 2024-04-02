@@ -1,0 +1,51 @@
+---
+title: "Descontar recompenças futuras"
+publishedAt: "2024-04-1"
+summary: "Conceitos fundamentais sobre RL"
+tags: ["RL", "fundamentos"]
+shortTitle: "RL"
+---
+
+# Por que adicionar uma taxa de 0.99 para descontar recompensas futuras?
+
+Equação de desconto de recompensas futuras:
+
+<MathBlock caption="">
+  {"G_t = γ⁰R_t + γ¹R_t+1 ... = ∑_{k=0}^{∞} γ^k R_{t+k}"}
+</MathBlock>
+
+Ou seja, essa função é uma soma infinita de recompensas futuras, onde cada recompensa é multiplicada por um fator de desconto γ.
+
+Basicamente a equação de Ballman é uma equação infinita, então se não houver um fator de desconto, a soma de recompensas futuras seria infinita.
+
+exemplo:
+<MathBlock caption="">
+{"G_t = R_t + R_t+1 + R_t+2 + … = 1 + 1 + 1 + … = ∞"}
+</MathBlock>
+
+Essa parte resolver a questão do infinito na equação de Ballman, mas por que o desconto?
+
+Tem mais haver com a psicologia "aversão ao risco", nos seres humanos preferimos curtir o agora do que o futuro, então se tivermos uma recompensa futura, ela deve ser descontada, ou seja, ela deve valer menos do que uma recompensa imediata.
+
+<Alert type="attention">
+  Em geral, quanto mais estocástico for o ambiente, menos as nossas ações terão um impacto duradouro no desempenho.
+</Alert>
+
+Às vezes é melhor pegar uma recompensa imediata do que esperar por uma recompensa futura, pois o ambiente pode mudar e a recompensa futura pode não ser mais valida.
+
+#### Lembrando:
+
+- Se o ambiente é estocástico, o desconto pode ser menor.
+- Se o ambiente é determinístico, o desconto pode ser maior.
+
+#### Alternativas:
+
+- recompensas médias
+- taxas dependentes do Estado
+
+#### Leitura:
+
+- Kahneman, D. (2017). Pensando, rápido e lento.
+- A aprendizagem por reforço com desconto não é um problema de otimização. https://arxiv.org/pdf/1910.02140.pdf
+- Repensando o fator de desconto na aprendizagem por reforço: uma abordagem teórica de decisão. https://arxiv.org/pdf/1902.02893.pdf
+- Compreender o papel do fator de desconto na aprendizagem por reforço. https://stats.stackexchange.com/questions/221402/understanding-the-role-of-the-discount-factor-in-reinforcement-learning
