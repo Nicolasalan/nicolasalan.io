@@ -8,9 +8,12 @@ const nextConfig = {
   images: {
     domains: [
       "tailwindui.com",
-      'www.imgeorgiev.com',
-      'avatars.githubusercontent.com',
-      `yt3.googleusercontent.com`,
+      "www.imgeorgiev.com",
+      "avatars.githubusercontent.com",
+      "yt3.googleusercontent.com",
+      "zkahgfoymdwxmhuxqhub.supabase.co",
+      "cdn-dkold.nitrocdn.com",
+      "https://blog.dataiku.com/",
     ],
   },
 };

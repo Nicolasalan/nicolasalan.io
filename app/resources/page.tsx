@@ -16,31 +16,31 @@ interface ItemProps {
 }
 
 const Item = ({ title, description, image, link, sponsored }: ItemProps) => (
-  <li className="flex gap-4 items-center transition-opacity">
+  <li className="flex items-center gap-4 transition-opacity">
     <a
-      className="relative rounded-xl overflow-hidden bg-tertiary aspect-square w-[4rem] min-w-[4rem] h-[4rem] shadow"
+      className="relative aspect-square h-[4rem] w-[4rem] min-w-[4rem] overflow-hidden rounded-xl bg-tertiary shadow"
       href={link}
       target="_blank"
     >
       <Image
         src={image}
         alt={title}
-        className="object-center object-cover w-full h-full"
+        className="h-full w-full object-cover object-center"
         fill
       />
     </a>
-    <div className="grow flex justify-between gap-2 items-center">
+    <div className="flex grow items-center justify-between gap-2">
       <div className="space-y-1">
-        <h3 className="text-primary line-clamp-2 leading-tight font-medium">
+        <h3 className="line-clamp-2 font-medium leading-tight text-primary">
           {title}
         </h3>
-        <p className="text-secondary line-clamp-3 leading-tight text-sm">
+        <p className="line-clamp-3 text-sm leading-tight text-secondary">
           {description}
         </p>
       </div>
       <div>
         <a
-          className="ml-auto text-sm rounded-full px-4 py-1 bg-secondary h-fit"
+          className="ml-auto h-fit rounded-full bg-secondary px-4 py-1 text-sm"
           href={link}
           target="_blank"
         >
@@ -67,35 +67,35 @@ export default function Resource() {
   return (
     <>
       <div className="flex flex-col gap-16 md:gap-24">
-        <div className="flex flex-col gap-8 animate-in">
+        <div className="flex animate-in flex-col gap-8">
           <div>
             <h1 className="animate-in text-3xl font-bold tracking-tight">
-            Recursos
+              Recursos
             </h1>
             <p
               className="animate-in text-secondary"
               style={{ "--index": 1 } as React.CSSProperties}
             >
-             Minha biblioteca.
+              Minha biblioteca.
             </p>
           </div>
           <p
             className="max-w-lg animate-in"
             style={{ "--index": 2 } as React.CSSProperties}
           >
-            Conteúdo que consumo e me ajuda a entender
-            determinado conteúdo além de ser muito bem produzido.
+            Conteúdo que consumo e me ajuda a entender determinado conteúdo além
+            de ser muito bem produzido.
           </p>
         </div>
 
         {categories.map((category, index) => (
           <section
-            className="flex flex-col gap-8 animate-in"
+            className="flex animate-in flex-col gap-8"
             key={index}
             style={{ "--index": 3 } as React.CSSProperties}
           >
             <h2 className="text-secondary">{category}</h2>
-            <ul className="grid md:grid-cols-2 gap-x-6 gap-y-8 animated-list">
+            <ul className="animated-list grid gap-x-6 gap-y-8 md:grid-cols-2">
               {resource.map((item, index) => {
                 if (item.category === category) {
                   return (
@@ -120,25 +120,40 @@ export default function Resource() {
   );
 }
 
-
 const resource = [
   {
     name: "Ignat Georgiev",
     category: "Blogs",
     image: "https://www.imgeorgiev.com/assets/img/avatar-icon.jpeg",
-    description:
-      "Robot Learning Researcher",
+    description: "Robot Learning Researcher",
     link: "http://www.imgeorgiev.com",
     sponsored: false,
   },
   {
-     name: "OpenVoice",
-     category: "Projects",
-     image: "https://avatars.githubusercontent.com/u/127754094?s=200&v=4",
-     description:
-       "Instant voice cloning by MyShell",
-     link: "https://github.com/myshell-ai/OpenVoice",
-     sponsored: false,
-   },
+    name: "Lil’Log",
+    category: "Blogs",
+    image:
+      "https://zkahgfoymdwxmhuxqhub.supabase.co/storage/v1/object/public/notes/resources/peach.jpg",
+    description: "practical AI safety and alignment at OpenAI",
+    link: "https://lilianweng.github.io/",
+    sponsored: false,
+  },
+  {
+    name: "Neuralnet.ai",
+    category: "Blogs",
+    image:
+      "https://cdn-dkold.nitrocdn.com/riZKeTFNhKAvSpsGEhUKHRQLkCvaPSzb/assets/images/optimized/rev-9ccaf6a/www.neuralnet.ai/wp-content/uploads/2021/12/banner-cropped-768x338.jpg",
+    description: "Your Home For Artificial Intelligence Education",
+    link: "https://www.neuralnet.ai/",
+    sponsored: false,
+  },
+  {
+    name: "Dataiku",
+    category: "Blogs",
+    image:
+      "https://www.dataiku.com/wp-content/uploads/2023/01/Property-1Teal.svg",
+    description: "Your Home For Artificial Intelligence Education",
+    link: "https://blog.dataiku.com/",
+    sponsored: false,
+  },
 ];
-
