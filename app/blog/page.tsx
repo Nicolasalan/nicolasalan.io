@@ -4,8 +4,7 @@ import PostList from "./components/ui/PostList";
 
 export const metadata: Metadata = {
   title: "Blog | Nicolas Alan",
-  description:
-    "Escrevo sobre programação, design e, ocasionalmente, atualizações de vida!",
+  description: "Programação e design",
 };
 
 export default function Blog() {
@@ -22,14 +21,22 @@ export default function Blog() {
       <div className="flex flex-col gap-16 md:gap-24">
         <div className="flex flex-col gap-8">
           <div>
-            <h1 className="animate-in text-3xl font-bold tracking-tight">Blog</h1>
+            <h1 className="animate-in text-3xl font-bold tracking-tight">
+              Blog
+            </h1>
             <p
               className="animate-in text-secondary"
               style={{ "--index": 1 } as React.CSSProperties}
             >
-              {posts.length} postagens sobre código, IA, mais ...
+              {posts.length} postagens
             </p>
           </div>
+          <p
+            className="max-w-lg animate-in"
+            style={{ "--index": 2 } as React.CSSProperties}
+          >
+            Conteúdo sobre meus estudos.
+          </p>
         </div>
         <div
           className="animate-in"

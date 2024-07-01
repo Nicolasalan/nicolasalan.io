@@ -6,29 +6,26 @@ export default function Links() {
   return (
     <>
       <div className="flex flex-col gap-16 md:gap-24">
-        <div className="flex flex-col gap-8 animate-in">
+        <div className="flex animate-in flex-col gap-8">
           <div
-            className="space-y-1 animate-in"
+            className="animate-in space-y-1"
             style={{ "--index": 2 } as React.CSSProperties}
           >
-            <h1 className="text-2xl font-bold tracking-tight text-center">
+            <h1 className="text-center text-2xl font-bold tracking-tight">
               Nicolas Alan
             </h1>
-            <p className="max-w-sm text-secondary mx-auto text-center">            
-            Engenheiro de software que adora criar coisas inteligentes.
-            </p>
           </div>
         </div>
 
         <ul
-          className="flex-grow grid grid-cols-1 gap-2 lg:gap-3 animated-list animate-in"
+          className="animated-list grid flex-grow animate-in grid-cols-1 gap-2 lg:gap-3"
           style={{ "--index": 3 } as React.CSSProperties}
         >
           {ConnectLinks.map((link) => (
-            <li className="transition-opacity col-span-1" key={link.label}>
+            <li className="col-span-1 transition-opacity" key={link.label}>
               <Link
                 href={link.href}
-                className="transition-opacity no-underline w-full rounded-lg p-4 bg-tertiary inline-grid"
+                className="inline-grid w-full rounded-lg bg-tertiary p-4 no-underline transition-opacity"
               >
                 <div className="flex items-center gap-3">
                   <span className="text-xl">{link.icon}</span>
@@ -37,7 +34,7 @@ export default function Links() {
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
-                    className="w-5 h-5 ml-auto text-secondary"
+                    className="ml-auto h-5 w-5 text-secondary"
                   >
                     <path
                       fillRule="evenodd"
