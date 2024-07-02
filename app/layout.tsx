@@ -1,8 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next"
 import clsx from "clsx";
 
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -12,8 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Home | Nicolas Alan",
-  description:
-    "Sou um engenheiro de software",
+  description: "Sou um engenheiro de software",
 };
 
 export default function RootLayout({
@@ -26,25 +23,19 @@ export default function RootLayout({
       <body
         className={clsx(
           inter.className,
-          "antialiased bg-primary text-primary width-full"
+          "width-full bg-primary text-primary antialiased",
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-        >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navigation />
           <div
             className={
-              "px-6 md:px-6 pt-16 pb-24 md:pt-20 md:pb-44 max-w-[700px] mx-auto"
+              "mx-auto max-w-[700px] px-6 pb-24 pt-16 md:px-6 md:pb-44 md:pt-20"
             }
           >
             {children}
           </div>
         </ThemeProvider>
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );
